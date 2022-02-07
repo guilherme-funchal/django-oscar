@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import gettext as _
 from django.views import generic
+from .aries import *
 
 from oscar.core.loading import get_class, get_classes, get_model
 
@@ -251,9 +252,9 @@ class ShippingMethodView(CheckoutSessionMixin, generic.FormView):
         return super().post(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        # These skip and pre conditions can't easily be factored out into the
-        # normal pre-conditions as they do more than run a test and then raise
-        # an exception on failure.
+        # These pre-conditions can't easily be factored out into the normal
+        # pre-conditions as they do more than run a test and then raise an
+        # exception on failure.
 
         # Check that shipping is required at all
         if not request.basket.is_shipping_required():
@@ -434,6 +435,19 @@ class PaymentDetailsView(OrderPlacementMixin, generic.TemplateView):
         # payment form is being submitted from the payment details view. In
         # this case, the form needs validating and the order preview shown.
         if request.POST.get('action', '') == 'place_order':
+            
+        #Realiza Onboard no Aries
+            email_user = self.request.user.email
+            
+            #Testa se já existe wallet 
+            result = check_subwallet_exist(email_user)
+            
+            #Testa se já existe conexão
+            result = create_connection(email_user)
+                                 
+             
+
+           
             return self.handle_place_order_submission(request)
         return self.handle_payment_details_submission(request)
 
