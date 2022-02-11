@@ -439,11 +439,13 @@ class PaymentDetailsView(OrderPlacementMixin, generic.TemplateView):
         #Realiza Onboard no Aries
             email_user = self.request.user.email
             
-            #Testa se já existe wallet 
-            result = check_subwallet_exist(email_user)
+            result = on_board_aries(email_user)
             
-            #Testa se já existe conexão
-            result = create_connection(email_user)
+            # Testa se já existe wallet 
+            # result = check_subwallet_exist(email_user)
+            
+            # Testa se já existe conexão
+            # result = create_connection(email_user)
                                  
              
 

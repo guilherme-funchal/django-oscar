@@ -16,6 +16,20 @@ wallet_pass = settings.REST_ARIES['WALLET_PASS']
 serviceEndpoint = settings.REST_ARIES['SERVICEENDPOINT']
 endpoint = host + ":" + port
 
+
+def on_board_aries(email_user):
+                
+    try:
+    #Testa se já existe wallet 
+        result = check_subwallet_exist(email_user)
+               
+    #Testa se já existe conexão
+        result = create_connection(email_user)
+    except:
+        raise    
+    finally: 
+        return result
+    
 def check_subwallet_exist(email_user):
 #Check if subwallet in Hyperledger Aries exist        
     value = None   
