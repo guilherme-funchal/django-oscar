@@ -23,6 +23,7 @@ urlpatterns = [
     # include a basic sitemap
     path('sitemap.xml', views.index,
         {'sitemaps': base_sitemaps}),
+    path('dashboard/accounts/', apps.get_app_config('accounts_dashboard').urls),
     path('sitemap-<slug:section>.xml', views.sitemap,
         {'sitemaps': base_sitemaps},
         name='django.contrib.sitemaps.views.sitemap')

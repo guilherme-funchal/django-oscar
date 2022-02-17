@@ -16,17 +16,31 @@ EMAIL_SUBJECT_PREFIX = '[Oscar sandbox] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Use a Sqlite database by default
+#DATABASES = {
+#    'default': {
+#        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
+#        'NAME': os.environ.get('DATABASE_NAME', location('db.sqlite')),
+#        'USER': os.environ.get('DATABASE_USER', None),
+#        'PASSWORD': os.environ.get('DATABASE_PASSWORD', None),
+#        'HOST': os.environ.get('DATABASE_HOST', None),
+#        'PORT': os.environ.get('DATABASE_PORT', None),
+#        'ATOMIC_REQUESTS': True
+#    }
+#}
+
+from settings import *  # noqa
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DATABASE_NAME', location('db.sqlite')),
-        'USER': os.environ.get('DATABASE_USER', None),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', None),
-        'HOST': os.environ.get('DATABASE_HOST', None),
-        'PORT': os.environ.get('DATABASE_PORT', None),
-        'ATOMIC_REQUESTS': True
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'oscar_travis',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
+
 
 CACHES = {
     'default': env.cache(default='locmemcache://'),
@@ -39,39 +53,41 @@ CACHES = {
 # On Unix systems, a value of None will cause Django to use the same
 # timezone as the operating system.
 USE_TZ = True
-TIME_ZONE = 'Europe/London'
+#TIME_ZONE = 'Europe/London'
+TIME_ZONE = 'America/Sao_Paulo'
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-gb'
+#LANGUAGE_CODE = 'en-gb'
+LANGUAGE_CODE = 'pt-br'
 
 # Includes all languages that have >50% coverage in Transifex
 # Taken from Django's default setting for LANGUAGES
 gettext_noop = lambda s: s
 LANGUAGES = (
-    ('ar', gettext_noop('Arabic')),
-    ('ca', gettext_noop('Catalan')),
-    ('cs', gettext_noop('Czech')),
-    ('da', gettext_noop('Danish')),
-    ('de', gettext_noop('German')),
-    ('en-gb', gettext_noop('British English')),
-    ('el', gettext_noop('Greek')),
-    ('es', gettext_noop('Spanish')),
-    ('fi', gettext_noop('Finnish')),
-    ('fr', gettext_noop('French')),
-    ('it', gettext_noop('Italian')),
-    ('ko', gettext_noop('Korean')),
-    ('nl', gettext_noop('Dutch')),
-    ('pl', gettext_noop('Polish')),
-    ('pt', gettext_noop('Portuguese')),
+#    ('ar', gettext_noop('Arabic')),
+#    ('ca', gettext_noop('Catalan')),
+#    ('cs', gettext_noop('Czech')),
+#    ('da', gettext_noop('Danish')),
+#    ('de', gettext_noop('German')),
+     ('en-gb', gettext_noop('British English')),
+#    ('el', gettext_noop('Greek')),
+#    ('es', gettext_noop('Spanish')),
+#    ('fi', gettext_noop('Finnish')),
+#    ('fr', gettext_noop('French')),
+#    ('it', gettext_noop('Italian')),
+#    ('ko', gettext_noop('Korean')),
+#    ('nl', gettext_noop('Dutch')),
+#    ('pl', gettext_noop('Polish')),
+#    ('pt', gettext_noop('Portuguese')),
     ('pt-br', gettext_noop('Brazilian Portuguese')),
-    ('ro', gettext_noop('Romanian')),
-    ('ru', gettext_noop('Russian')),
-    ('sk', gettext_noop('Slovak')),
-    ('uk', gettext_noop('Ukrainian')),
-    ('zh-cn', gettext_noop('Simplified Chinese')),
+#    ('ro', gettext_noop('Romanian')),
+#    ('ru', gettext_noop('Russian')),
+#    ('sk', gettext_noop('Slovak')),
+#    ('uk', gettext_noop('Ukrainian')),
+#    ('zh-cn', gettext_noop('Simplified Chinese')),
 )
 
 SITE_ID = 1
@@ -79,6 +95,9 @@ SITE_ID = 1
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
+
+OSCAR_DEFAULT_CURRENCY = "BRL"
+OSCAR_CURRENCY_LOCALE = "BRL"
 
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
@@ -125,7 +144,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.request',
-                'django.template.context_processors.debug',
+#               'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
@@ -137,13 +156,13 @@ TEMPLATES = [
                 'oscar.apps.checkout.context_processors.checkout',
                 'oscar.core.context_processors.metadata',
             ],
-            'debug': DEBUG,
+#           'debug': DEBUG,
         }
     }
 ]
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+#   'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -289,7 +308,8 @@ INSTALLED_APPS = [
     'oscar.apps.dashboard.vouchers.apps.VouchersDashboardConfig',
     'oscar.apps.dashboard.communications.apps.CommunicationsDashboardConfig',
     'oscar.apps.dashboard.shipping.apps.ShippingDashboardConfig',
-
+    'oscar_accounts.apps.AccountsConfig',
+    'oscar_accounts.dashboard.apps.AccountsDashboardConfig',
     # 3rd-party apps that Oscar depends on
     'widget_tweaks',
     'haystack',
@@ -297,13 +317,12 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'easy_thumbnails',
     'django_tables2',
-
     # Django apps that the sandbox depends on
     'django.contrib.sitemaps',
 
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
-    'debug_toolbar',
+#   'debug_toolbar',
 ]
 
 # Add Oscar's custom auth backend so users can sign in using their email
@@ -429,3 +448,51 @@ try:
     from settings_local import *
 except ImportError:
     pass
+
+
+from oscar.defaults import *
+
+OSCAR_DASHBOARD_NAVIGATION.append(
+    {
+        'label': 'Accounts',
+        'icon': 'fas fa-globe',
+        'children': [
+            {
+                'label': 'Accounts',
+                'url_name': 'accounts_dashboard:accounts-list',
+            },
+            {
+                'label': 'Transfers',
+                'url_name': 'accounts_dashboard:transfers-list',
+            },
+            {
+                'label': 'Deferred income report',
+                'url_name': 'accounts_dashboard:report-deferred-income',
+            },
+            {
+                'label': 'Profit/loss report',
+                'url_name': 'accounts_dashboard:report-profit-loss',
+            },
+        ]
+    })
+
+REST_ARIES = {
+    'EMAIL_ECOMMERCE': "superuser@example.com",    
+    'HOST' : "http://127.0.0.1",
+    'PORT'  : "8021",
+    'WALLET_PREFIX' : "credencialserv-1",
+    'WALLET_WEBHOOK_URLS' : "http://localhost:8022/webhooks",
+    'WALLET_PASS' : "MySecretKey123",
+    'LEDGER_HOST' : "121.0.0.1",
+    'LEDGER_PORT' : "7000",
+    'SERVICEENDPOINT' : "http://127.0.0.1:8020"
+}
+
+BADGR = {
+    'HOST' : "http://127.0.0.1",
+    'PORT'  : "10000",
+    'USER'  : "superuser@example.com",
+    'PASSWORD': "serpro",
+    'ISSUER': "MqkKAWLLQJ6cdbNXTLc5-w",
+    'BADGE_CLASS': "Ze8gITxNTfCpHA7JJEUOFA"
+}
