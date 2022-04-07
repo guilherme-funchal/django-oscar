@@ -277,7 +277,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-
     'oscar.config.Shop',
     'oscar.apps.analytics.apps.AnalyticsConfig',
     'oscar.apps.checkout.apps.CheckoutConfig',
@@ -294,6 +293,7 @@ INSTALLED_APPS = [
     'oscar.apps.customer.apps.CustomerConfig',
     'oscar.apps.search.apps.SearchConfig',
     'oscar.apps.voucher.apps.VoucherConfig',
+    'oscar.apps.security.apps.SecurityConfig',
     'oscar.apps.wishlists.apps.WishlistsConfig',
     'oscar.apps.dashboard.apps.DashboardConfig',
     'oscar.apps.dashboard.reports.apps.ReportsDashboardConfig',
@@ -319,7 +319,7 @@ INSTALLED_APPS = [
     'django_tables2',
     # Django apps that the sandbox depends on
     'django.contrib.sitemaps',
-
+    'paypal',
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
 #   'debug_toolbar',
@@ -385,6 +385,7 @@ INTERNAL_IPS = ['127.0.0.1', '::1']
 # ==============
 
 from oscar.defaults import *
+
 
 # Meta
 # ====
@@ -496,3 +497,7 @@ BADGR = {
     'ISSUER': "MqkKAWLLQJ6cdbNXTLc5-w",
     'BADGE_CLASS': "Ze8gITxNTfCpHA7JJEUOFA"
 }
+
+PAYPAL_API_USERNAME = 'sb-pa6qv14529582_api1.business.example.com'
+PAYPAL_API_PASSWORD = 'UNZT2GZ867Z6KM7M'
+PAYPAL_API_SIGNATURE = 'Ac-tkSZzgbcK8DfjFPXNP4GqxOynA8RNG-yypQcV76Y-PlRYC2LnkVxm'
